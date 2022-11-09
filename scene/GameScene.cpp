@@ -12,6 +12,24 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
+
+	// ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+
+	// 自キャラの生成
+	player_ = new Player();
+
+	// 自キャラの初期化
+	player_->Initialize();
+
+	// 敵キャラの生成
+	boss_ = new Boss();
+
+	// 敵キャラの初期化
+	boss_->Initialize();
+
+	// 敵キャラに自キャラのアドレスを渡す
+	boss_->SetPlayer(player_);
 }
 
 void GameScene::Update() {}
