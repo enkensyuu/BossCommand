@@ -4,7 +4,10 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() 
+{
+	delete stagemodel_;
+}
 
 void GameScene::Initialize() {
 
@@ -12,9 +15,19 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
+	
+	stagemodel_ = Model::CreateFromOBJ("World", true);
+	
+	stage_ = new Stage();
+	stage_->Initilize(stagemodel_);
+	
+	viewProjection_.Initialize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() 
+{
+	stage_->Update();
+}
 
 void GameScene::Draw() {
 
@@ -42,7 +55,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-
+	stage_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

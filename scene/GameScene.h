@@ -9,6 +9,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include"Stage.h"
 
 /// <summary>
 /// ゲームシーン
@@ -25,6 +26,7 @@ class GameScene {
 	/// デストラクタ
 	/// </summary>
 	~GameScene();
+	
 
 	/// <summary>
 	/// 初期化
@@ -42,10 +44,13 @@ class GameScene {
 	void Draw();
 
   private: // メンバ変数
+	  ViewProjection viewProjection_;
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
+	Stage* stage_ = nullptr;
+	Model* stagemodel_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
