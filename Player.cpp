@@ -1,21 +1,21 @@
 #include "TextureManager.h"
 #include <cassert>
-#include<Player.h>
-#include<random>
+#include"Player.h"
+#include"Boss.h"
+#include"Turn.h"
+#include<time.h>
+#include<math.h>
 
 
 void Player::Initialize()
 {
 	PlayerHp_ = 500;
-	PlayerAttackFlag_ = 0;
+	isMoveFlag_ = false;
+	isAttack = false;
 	Select = 0;
+	Random = false;
 	input_ = Input::GetInstance();
-	std::random_device seed_gen;
-	std::mt19937_64 engine(seed_gen());
-	std::uniform_real_distribution<float>PlayerDamage(50.0f, 100.0f);
-	std::uniform_real_distribution<float>PlayerHeal(150.0f, 200.0f);
-	std::uniform_real_distribution<float>PlayerGuard(0.5f, 0.75f);
-
+	debugText_ = DebugText::GetInstance();
 }
 
 void Player::Update()
@@ -36,29 +36,77 @@ void Player::Update()
 			Select = 4;
 		}
 	}
-	if (Select == 0)
+
+	if (input_->TriggerKey(DIK_SPACE))
 	{
-		PlayerSpeed = 2;
+		isMoveFlag_ = true;
+		Random = true;
 	}
-	else if (Select == 1)
+
+	if (isMoveFlag_)
 	{
-		PlayerSpeed = 3;
+		if (Random)
+		{
+			PlayerAttack = rand() % 51 + 50;
+			PlayerHeal = rand() % 51 + 150;
+			Random = false;
+		}
+
+		if (Select == 0)
+		{
+			isAttack = true;
+			PlayerSpeed = 2;
+		}
+		else if (Select == 1)
+		{
+			PlayerHp_ += PlayerHeal;
+			PlayerSpeed = 3;
+		}
+		else if (Select == 2)
+		{
+			PlayerSpeed = 3;
+		}
+		else if (Select == 3)
+		{
+			PlayerSpeed = 3;
+		}
+		else if (Select == 4)
+		{
+			PlayerSpeed = 4;
+		}
 	}
-	else if (Select == 2)
-	{
-		PlayerSpeed = 3;
-	}
-	else if (Select == 4)
-	{
-		PlayerSpeed = 4;
-	}
+
+	debugText_->SetPos(50, 50);
+	debugText_->SetScale(5);
+	debugText_->Printf("player:%d", PlayerHp_);
 }
 
 void Player::Draw()
 {
+	
 }
 
-float Player::Speed()
+int Player::Speed()
 {
 	return PlayerSpeed;
+}
+
+int Player::Hp()
+{
+	return PlayerHp_;
+}
+
+int Player::Attack()
+{
+	return PlayerAttack;
+}
+
+bool Player::IsMove()
+{
+	return isMoveFlag_;
+}
+
+bool Player::IsAttack()
+{
+	return isAttack;
 }

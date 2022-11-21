@@ -9,17 +9,51 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+class Boss;
+class Turn;
+
 class Player
 {
 private:
 	int PlayerHp_;
-	int PlayerAttackFlag_;
-	float PlayerSpeed;
+
+	bool isMoveFlag_;
+
+	bool Random;
+
+	int PlayerSpeed;
+
+	int PlayerAttack;
+	bool isAttack;
+
+	int PlayerHeal;
+	bool isHeal;
+
+	int PlayerGuard;
 	int Select;
+
 	Input* input_ = nullptr;
+
+	DebugText* debugText_ = nullptr;
+
+	Boss* boss_ = nullptr;
+	Turn* turn_ = nullptr;
+
 public:
 	void Initialize();
+
 	void Update();
+
 	void Draw();
-	float Speed();
+
+	int Speed();
+
+	int Hp();
+
+	int Attack();
+	bool IsAttack();
+
+	bool IsMove();
+
+	void SetDamage(int damage) { PlayerHp_ -= damage; }
 };

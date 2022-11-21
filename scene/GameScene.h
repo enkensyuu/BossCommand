@@ -11,6 +11,7 @@
 #include "WorldTransform.h"
 #include"Boss.h"
 #include"Player.h"
+#include"Turn.h"
 
 /// <summary>
 /// ゲームシーン
@@ -51,6 +52,7 @@ class GameScene {
 	ViewProjection viewProjection_;
 	Boss* boss_ = nullptr;
 	Player* player_ = nullptr;
+	Turn* turn_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

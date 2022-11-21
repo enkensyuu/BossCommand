@@ -4,7 +4,11 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() {
+	delete player_;
+	delete boss_;
+	delete turn_;
+}
 
 void GameScene::Initialize() {
 
@@ -28,11 +32,30 @@ void GameScene::Initialize() {
 	// 敵キャラの初期化
 	boss_->Initialize();
 
-	// 敵キャラに自キャラのアドレスを渡す
-	boss_->SetPlayer(player_);
+	// ターンの生成
+	turn_ = new Turn();
+
+	// ターンの初期化
+	turn_->Initialize();
+
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	if (player_->IsAttack())
+	{
+		player_->Update();
+		boss_->Update();
+		if (player_->IsAttack())
+		{
+			boss_->SetDamage(player_->Attack());
+		}
+		boss_->SetDamage2(player_->Attack());
+		boss_->FinishFlag();
+	}
+	debugText_->SetPos(250, 250);
+	debugText_->SetScale(3);
+	debugText_->Printf("-%d", player_->Attack());
+}
 
 void GameScene::Draw() {
 
