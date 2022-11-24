@@ -8,9 +8,6 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include"Turn.h"
-
-class Player;
 
 class Boss
 {
@@ -20,6 +17,8 @@ public:
 	void Update();
 
 	void Draw();
+
+	void Command();
 
 	void Normal();
 
@@ -31,8 +30,6 @@ public:
 	
 	int Attack();
 	
-	int DamageUp();
-	
 	int Ulte();
 
 	bool IsAttack();
@@ -43,13 +40,17 @@ public:
 
 	bool IsUlteFlag();
 
-	int Ransuu();
-
 	void FinishFlag();
+
+	bool IsEndTurn();
+
+	void FinishTurn();
 
 	void SetDamage(int damage) { Hp -= damage; }
 
-	void SetDamage2(int damage) { Hp -= damage * guard_; }
+	void SetGuardDamage(int damage) { Hp -= damage * guard_; }
+
+	void SetCounterDamage() { Hp -= AttackDamage * 1.2; }
 
 private:
 	WorldTransform worldTransform_;
@@ -58,10 +59,6 @@ private:
 
 	DebugText* debugText_ = nullptr;
 
-	Player* player_ = nullptr;
-
-	Turn* turn_ = nullptr;
-
 	int SelectCommand;
 
 	int Hp;
@@ -69,11 +66,18 @@ private:
 	
 	int attack_;
 	int damageUp_;
+	int AttackDamage;
 	int guard_;
 	int ulte_;
+	int Turn;
+	int MoveTimer;
+	int EndTime;
 	bool isAttack_;
 	bool isBossDamageUp_;
 	bool isBossGuard_;
+	bool isUlteSealed;
+	bool isAvoidSealed;
+	bool isEndTurn;
 
 	// ƒtƒ‰ƒO
 	bool isRandomFlag_ = false;
